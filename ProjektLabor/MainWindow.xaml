@@ -1,0 +1,30 @@
+﻿<Window x:Class="ProjektLabor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjektLabor"
+        mc:Ignorable="d"
+        Title="Route Manager" Height="600" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="0" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Full list" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox Name="listFullList" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Padding="4" Margin="10" ItemsSource="{Binding fullListBox}"/>
+        
+        <TextBlock Text="Unordered new random list" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox Name="listUnorderedRandomElements"  Grid.Column="2" Grid.Row="1" Padding="4" Margin="10" SelectionChanged="UserInsertion" ItemsSource="{Binding unorderedRandomListBox}"/>
+
+        <TextBlock Text="Ordered random element list" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox Name="listOrderedRandomElements" Grid.Column="2" Grid.Row="4" Padding="4" Margin="10" ItemsSource="{Binding orderedRandomListBox}"/>
+    </Grid>
+</Window>
