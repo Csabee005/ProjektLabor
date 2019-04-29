@@ -26,7 +26,7 @@ namespace ProjektLabor
         {
             InitializeComponent();
             manager = new RouteManager();
-            this.DataContext = manager;
+            DataContext = manager;
         }
 
         private void UserInsertion(object sender, SelectionChangedEventArgs e)

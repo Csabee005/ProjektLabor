@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace ProjektLabor
 {
-    class SingleElement
+    class SingleElement : INotifyPropertyChanged, IComparable
     {
         string name;
         int index;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public SingleElement(string name)
         {
@@ -25,13 +27,16 @@ namespace ProjektLabor
 
         public string Name { get => name; set {
                 this.name = value;
-            }}
+                OnPropertyChanged("Name");
+            }
+        }
 
         public int Index
         {
             get => index; set
             {
                 this.index = value;
+                OnPropertyChanged("Index");
             }
         }
 
@@ -56,6 +61,36 @@ namespace ProjektLabor
                 return this;
             }
             return null;
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        internal bool isEqual(SingleElement firstFull)
+        {
+            if(index == firstFull.index)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+            SingleElement otherElement = obj as SingleElement;
+            if(this.index == -1)
+            {
+                return 1;
+            }
+            if (otherElement != null)
+                return this.index.CompareTo(otherElement.index);
+            else
+            {
+                throw new ArgumentException("Object is not a SingleElement!");
+            }
         }
     }
 }

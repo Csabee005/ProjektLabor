@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,17 +10,29 @@ using System.Windows;
 
 namespace ProjektLabor
 {
-    class RouteManager : ObservableCollection<SingleElement>
+    class RouteManager : ObservableCollection<SingleElement>, ISortList
     {
+        Boolean processDestinations;
         public ObservableCollection<SingleElement> fullListBox { get; set; }
+
         public ObservableCollection<SingleElement> unorderedRandomListBox { get; set; }
+
         public ObservableCollection<SingleElement> orderedRandomListBox { get; set; }
+
+        IndexManager indexManager;
 
         public RouteManager()
         {
-            fullListBox = IndexManager.initializeFullList();
+            processDestinations = true;
+            indexManager = new IndexManager(this);
+            fullListBox = indexManager.initializeFullList();
             unorderedRandomListBox = IndexManager.shuffleNewElements(fullListBox);
             orderedRandomListBox = new ObservableCollection<SingleElement>();
+        }
+
+        public void continueDestinationProcess()
+        {
+            indexManager.addNewElements(unorderedRandomListBox, fullListBox);
         }
 
         internal void insertElement(SingleElement selectedItem)
@@ -27,19 +40,23 @@ namespace ProjektLabor
             if(selectedItem != null)
             {
                 unorderedRandomListBox.Remove(selectedItem);
-                selectedItem.Index = orderedRandomListBox.Count;
-                orderedRandomListBox.Add(selectedItem);
+                SingleElement newItem = new SingleElement(selectedItem.Name, orderedRandomListBox.Count);
+                orderedRandomListBox.Add(newItem);
                 if (unorderedRandomListBox.Count == 0)
                 {
                     updateFullList();
+                    orderedRandomListBox.Clear();
+                    if (processDestinations)
+                    {
+                        continueDestinationProcess();
+                    }
                 }
             }
-            
         }
 
         private void updateFullList()
         {
-            for (int i = 0; i < orderedRandomListBox.Count-1; i++)
+            for (int i = 0; i < orderedRandomListBox.Count - 1; i++)
             {
                 SingleElement firstOrdered = orderedRandomListBox[i];
                 SingleElement lastOrdered = orderedRandomListBox[i + 1];
@@ -56,12 +73,71 @@ namespace ProjektLabor
                         lastFull = fullListBox[index].getElementByName(lastOrdered.Name);
                     }
                     index++;
+
+                    if (lastFull == null && index > orderedRandomListBox.Count)
+                    {
+                        lastFull = lastOrdered;
+                    }
                 }
-                MessageBox.Show("Elements that are being compared are " + firstFull + " and " + lastFull + ".");
-                if (lastFull.isLater(firstFull))
+                MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
+                if(lastFull.isLater(firstFull))
                 {
-                    MessageBox.Show(firstFull + " is earlier than " + lastFull);
+                    MessageBox.Show(firstFull + " is before " + lastFull + ", so inserting before it, at index " + firstFull.Index + 1);
+                    indexManager.insertAfterElement(firstFull, lastFull);
                 }
+                else if (lastFull.isEqual(firstFull))
+                {
+                    MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
+                    indexManager.insertAfterFirstDefined(firstFull);
+                }
+                else
+                {
+                    MessageBox.Show(firstFull + " is later than " + lastFull + ", so inserting " + lastFull.Name + " before " + firstFull.Name);
+                }
+            }
+            insertLastElement();
+        }
+
+
+        private void insertLastElement()
+        {
+            SingleElement firstOrdered = orderedRandomListBox[orderedRandomListBox.Count-2];
+            SingleElement lastOrdered = orderedRandomListBox[orderedRandomListBox.Count-1];
+            SingleElement firstFull = null, lastFull = null;
+            int index = 0;
+            while (firstFull == null || lastFull == null)
+            {
+                if (firstFull == null)
+                {
+                    firstFull = fullListBox[index].getElementByName(firstOrdered.Name);
+                }
+                if (lastFull == null)
+                {
+                    lastFull = fullListBox[index].getElementByName(lastOrdered.Name);
+                }
+                index++;
+            }
+            indexManager.insertAfterElement(lastFull,firstFull);
+            listToBeSorted();
+        }
+
+        public void listToBeSorted()
+        {
+
+            int index = 0;
+            foreach (SingleElement element in fullListBox)
+            {
+                if(element.Index != -1)
+                {
+                    element.Index = index++;
+                }
+            }
+            ArrayList elements = new ArrayList(fullListBox.ToArray());
+            elements.Sort();
+            fullListBox.Clear();
+            foreach (SingleElement element in elements)
+            {
+                fullListBox.Add(element);
             }
         }
     }
