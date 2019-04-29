@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjektLabor
 {
-    class SingleElement : INotifyPropertyChanged
+    class SingleElement
     {
         string name;
         int index;
@@ -25,26 +25,37 @@ namespace ProjektLabor
 
         public string Name { get => name; set {
                 this.name = value;
-                onPropertyChanged(this, "name");
             }}
 
-        public int Index { get => index; set {
-                this.index = value;
-                onPropertyChanged(this, "index");
-            }}
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(object sender, string propertyName)
+        public int Index
         {
-            if (this.PropertyChanged != null)
+            get => index; set
             {
-                PropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
+                this.index = value;
             }
         }
 
         public override string ToString()
         {
-            return String.Format("{0,-20} at index: {1,5}", name, index);
+            return String.Format("{0} | {1}", name, index);
+        }
+
+        internal bool isLater(SingleElement first)
+        {
+            if(index > first.index)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public SingleElement getElementByName(string name)
+        { 
+            if(this.name == name)
+            {
+                return this;
+            }
+            return null;
         }
     }
 }

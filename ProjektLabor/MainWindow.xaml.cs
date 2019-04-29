@@ -21,6 +21,7 @@ namespace ProjektLabor
     public partial class MainWindow : Window
     {
         RouteManager manager;
+
         public MainWindow()
         {
             InitializeComponent();

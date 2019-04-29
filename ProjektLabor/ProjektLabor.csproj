@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IndexManager.cs" />
+    <Compile Include="INotifyMainContext.cs" />
     <Compile Include="RouteManager.cs" />
     <Compile Include="SingleElement.cs" />
     <Page Include="MainWindow.xaml">

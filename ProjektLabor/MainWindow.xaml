@@ -19,12 +19,33 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Full list" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Name="listFullList" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Padding="4" Margin="10" ItemsSource="{Binding fullListBox}"/>
-        
+        <ListView Name="listFullList" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Padding="4" Margin="10" ItemsSource="{Binding fullListBox}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <TextBlock Text="Unordered new random list" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Name="listUnorderedRandomElements"  Grid.Column="2" Grid.Row="1" Padding="4" Margin="10" SelectionChanged="UserInsertion" ItemsSource="{Binding unorderedRandomListBox}"/>
+        <ListView Name="listUnorderedRandomElements"  Grid.Column="2" Grid.Row="1" Padding="4" Margin="10" SelectionChanged="UserInsertion" ItemsSource="{Binding unorderedRandomListBox}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
         <TextBlock Text="Ordered random element list" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Name="listOrderedRandomElements" Grid.Column="2" Grid.Row="4" Padding="4" Margin="10" ItemsSource="{Binding orderedRandomListBox}"/>
+        <ListView Name="listOrderedRandomElements" Grid.Column="2" Grid.Row="4" Padding="4" Margin="10" ItemsSource="{Binding orderedRandomListBox}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
