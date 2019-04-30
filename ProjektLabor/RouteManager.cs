@@ -80,6 +80,19 @@ namespace ProjektLabor
                     }
                 }
                 MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
+                Boolean isFoundLater = false;
+                for(int j = firstFull.Index; j < fullListBox.Count; j++)
+                {
+                    if(fullListBox[j] == lastFull)
+                    {
+                        isFoundLater = true;
+                    }
+                }
+                if(isFoundLater)
+                {
+                    MessageBox.Show(lastFull + " is before " + firstFull + ", so inserting before it, at index " + firstFull.Index + 1);
+                    indexManager.insertAfterElement(firstFull, lastFull);
+                }
                 if(lastFull.isLater(firstFull))
                 {
                     MessageBox.Show(firstFull + " is before " + lastFull + ", so inserting before it, at index " + firstFull.Index + 1);
