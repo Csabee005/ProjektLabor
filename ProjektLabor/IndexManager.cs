@@ -61,6 +61,7 @@ namespace ProjektLabor
 
         internal void insertAfterFirstDefined(SingleElement firstFull)
         {
+            list.Remove(firstFull);
             int minIndex = -1;
             foreach (SingleElement element in list)
             {
@@ -69,21 +70,39 @@ namespace ProjektLabor
                     minIndex = element.Index;
                 }
             }
-            list.Remove(firstFull);
             firstFull.Index = minIndex + 1;
             list.Insert(firstFull.Index, firstFull);
+            sortList.listToBeSorted();
         }
 
         internal void insertAfterElement(SingleElement firstFull, SingleElement lastFull)
         {
-            list.Remove(lastFull);
+            int index = -1;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Name.Equals(lastFull.Name))
+                {
+                    index = i;
+                }
+            }
+            list.RemoveAt(index);
             lastFull.Index = firstFull.Index + 1;
             list.Insert(lastFull.Index, lastFull);
+            sortList.listToBeSorted();
         }
 
         public void listToBeSorted()
         {
             throw new NotImplementedException();
+        }
+
+        internal void swapElement(SingleElement firstFull, SingleElement lastFull)
+        {
+            list.Remove(firstFull);
+            list.Remove(lastFull);
+            list.Insert(lastFull.Index, firstFull);
+            list.Insert(lastFull.Index + 1, lastFull);
+            //TODO create swapping algorithm
         }
     }
 }

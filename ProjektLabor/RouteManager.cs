@@ -79,27 +79,37 @@ namespace ProjektLabor
                         lastFull = lastOrdered;
                     }
                 }
-                MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
+                //MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
                 if(lastFull.isLater(firstFull))
                 {
-                    MessageBox.Show(firstFull + " is before " + lastFull + ", so inserting before it, at index " + firstFull.Index + 1);
-                    indexManager.insertAfterElement(firstFull, lastFull);
+                    if(lastFull.Index == -1)
+                    {
+                        indexManager.insertAfterElement(firstFull, lastFull);
+                    }
+                    //MessageBox.Show(firstFull + " is before " + lastFull + ", so inserting before it, at index " + firstFull.Index + 1);
                 }
                 else if (lastFull.isEqual(firstFull))
                 {
-                    MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
+                    //MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
                     indexManager.insertAfterFirstDefined(firstFull);
                 }
                 else
                 {
-                    MessageBox.Show(firstFull + " is later than " + lastFull + ", so inserting " + lastFull.Name + " before " + firstFull.Name);
+                    if(lastFull.Index != -1)
+                        indexManager.swapElement(firstFull, lastFull);
+                    else
+                    {
+                        indexManager.insertAfterElement(firstFull, lastFull);
+                    }
+                    //MessageBox.Show(firstFull + " is later than " + lastFull + ", so inserting " + lastFull.Name + " before " + firstFull.Name);
                 }
+                listToBeSorted();
             }
-            insertLastElement();
+            checkLastElement();
         }
 
 
-        private void insertLastElement()
+        private void checkLastElement()
         {
             SingleElement firstOrdered = orderedRandomListBox[orderedRandomListBox.Count-2];
             SingleElement lastOrdered = orderedRandomListBox[orderedRandomListBox.Count-1];
@@ -117,13 +127,18 @@ namespace ProjektLabor
                 }
                 index++;
             }
-            indexManager.insertAfterElement(lastFull,firstFull);
+            if(lastFull.Index == -1)
+            {
+                indexManager.insertAfterElement(firstFull,lastFull);
+            }else if (!lastFull.isLater(firstFull))
+            {
+                indexManager.swapElement(firstFull, lastFull);
+            }
             listToBeSorted();
         }
 
         public void listToBeSorted()
         {
-
             int index = 0;
             foreach (SingleElement element in fullListBox)
             {
