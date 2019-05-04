@@ -56,6 +56,7 @@ namespace ProjektLabor
 
         private void updateFullList()
         {
+            bool madeChange = false;
             for (int i = 0; i < orderedRandomListBox.Count - 1; i++)
             {
                 SingleElement firstOrdered = orderedRandomListBox[i];
@@ -77,39 +78,50 @@ namespace ProjektLabor
                     if (lastFull == null && index > orderedRandomListBox.Count)
                     {
                         lastFull = lastOrdered;
+                        lastFull.Index = orderedRandomListBox.Count + 1;
                     }
                 }
                 //MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
-                if(lastFull.isLater(firstFull))
+                if(firstFull.Index == -1)
                 {
-                    if(lastFull.Index == -1)
-                    {
-                        indexManager.insertAfterElement(firstFull, lastFull);
-                    }
-                    //MessageBox.Show(firstFull + " is before " + lastFull + ", so inserting before it, at index " + firstFull.Index + 1);
+                    indexManager.insertAfterFirstDefined(firstFull);
+                    madeChange = true;
+                    i--;
+                }
+                else if (lastFull.Index == -1)
+                {
+                    indexManager.insertAfterElement(firstFull, lastFull);
+                    madeChange = true;
                 }
                 else if (lastFull.isEqual(firstFull))
                 {
                     //MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
                     indexManager.insertAfterFirstDefined(firstFull);
+                    madeChange = true;
                 }
                 else
                 {
-                    if(lastFull.Index != -1)
+                    if (lastFull.Index != -1 && firstFull.isLater(lastFull))
+                    {
                         indexManager.swapElement(firstFull, lastFull);
-                    else
+                        madeChange = true;
+                    }
+                    else if (firstFull.isLater(lastFull))
                     {
                         indexManager.insertAfterElement(firstFull, lastFull);
+                        madeChange = true;
                     }
                     //MessageBox.Show(firstFull + " is later than " + lastFull + ", so inserting " + lastFull.Name + " before " + firstFull.Name);
                 }
                 listToBeSorted();
             }
-            checkLastElement();
+            checkLastElement(madeChange);
+            if (madeChange)
+                updateFullList();
         }
 
 
-        private void checkLastElement()
+        private void checkLastElement(bool madeChange)
         {
             SingleElement firstOrdered = orderedRandomListBox[orderedRandomListBox.Count-2];
             SingleElement lastOrdered = orderedRandomListBox[orderedRandomListBox.Count-1];
@@ -130,14 +142,28 @@ namespace ProjektLabor
             if(lastFull.Index == -1)
             {
                 indexManager.insertAfterElement(firstFull,lastFull);
-            }else if (!lastFull.isLater(firstFull))
+                madeChange = true;
+            }
+            else if (lastFull.isEqual(firstFull))
+            {
+                //MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
+                indexManager.insertAfterFirstDefined(firstFull);
+                madeChange = true;
+            }
+            else if (firstFull.isLater(lastFull) && lastFull.Index != -1)
             {
                 indexManager.swapElement(firstFull, lastFull);
+                madeChange = true;
+            }
+            else if (firstFull.isLater(lastFull))
+            {
+                indexManager.insertAfterElement(firstFull, lastFull);
+                madeChange = true;
             }
             listToBeSorted();
         }
 
-        public void listToBeSorted()
+        public ObservableCollection<SingleElement> listToBeSorted()
         {
             int index = 0;
             foreach (SingleElement element in fullListBox)
@@ -154,6 +180,8 @@ namespace ProjektLabor
             {
                 fullListBox.Add(element);
             }
+            return fullListBox;
         }
+
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace ProjektLabor
+﻿using System.Collections.ObjectModel;
+
+namespace ProjektLabor
 {
     internal interface ISortList
     {
-        void listToBeSorted();
+        ObservableCollection<SingleElement> listToBeSorted();
     }
 }

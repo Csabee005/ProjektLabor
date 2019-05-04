@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ProjektLabor
 {
@@ -61,6 +62,7 @@ namespace ProjektLabor
 
         internal void insertAfterFirstDefined(SingleElement firstFull)
         {
+            //MessageBox.Show("insertAfterFirstDefined" + firstFull);
             list.Remove(firstFull);
             int minIndex = -1;
             foreach (SingleElement element in list)
@@ -72,11 +74,12 @@ namespace ProjektLabor
             }
             firstFull.Index = minIndex + 1;
             list.Insert(firstFull.Index, firstFull);
-            sortList.listToBeSorted();
+            list = sortList.listToBeSorted();
         }
 
         internal void insertAfterElement(SingleElement firstFull, SingleElement lastFull)
         {
+            //MessageBox.Show("insertAfterElement" + firstFull + " || " + lastFull);
             int index = -1;
             for (int i = 0; i < list.Count; i++)
             {
@@ -88,21 +91,47 @@ namespace ProjektLabor
             list.RemoveAt(index);
             lastFull.Index = firstFull.Index + 1;
             list.Insert(lastFull.Index, lastFull);
-            sortList.listToBeSorted();
+            list = sortList.listToBeSorted();
         }
 
-        public void listToBeSorted()
+        internal void insertAtFirstIndex(SingleElement firstFull)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Name.Equals(firstFull.Name))
+                {
+                    list.RemoveAt(i);
+                }
+            }
+            list.Insert(0, firstFull);
+            list = sortList.listToBeSorted();
+        }
+
+        public ObservableCollection<SingleElement> listToBeSorted()
+        {
+            return null;
         }
 
         internal void swapElement(SingleElement firstFull, SingleElement lastFull)
         {
-            list.Remove(firstFull);
-            list.Remove(lastFull);
+            //MessageBox.Show("swapElement" + firstFull + " || " + lastFull);
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Name.Equals(lastFull.Name))
+                {
+                    list.RemoveAt(i);
+                }
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Name.Equals(firstFull.Name))
+                {
+                    list.RemoveAt(i);
+                }
+            }
             list.Insert(lastFull.Index, firstFull);
             list.Insert(lastFull.Index + 1, lastFull);
-            //TODO create swapping algorithm
+            list = sortList.listToBeSorted();
         }
     }
 }
