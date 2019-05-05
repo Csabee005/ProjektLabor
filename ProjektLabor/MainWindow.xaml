@@ -5,21 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjektLabor"
         mc:Ignorable="d"
-        Title="Route Manager" Height="600" Width="800">
+        Title="Route Manager" Height="600" Width="800" ResizeMode="CanMinimize" Background="LightGray">
+    <Window.Resources>
+        <Style x:Key="BorderlessButton" TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter Name="content" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="image/icon_plus_click.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="content" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="image/icon_plus_click.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="content" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX=".95" ScaleY=".95" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="0" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="60" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Full list" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListView Name="listFullList" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Padding="4" Margin="10" ItemsSource="{Binding fullListBox}">
+        <TextBlock Text="Full list" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,10,0"/>
+        <ListView Name="listFullList" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Padding="4" Margin="10,0,10,10" ItemsSource="{Binding fullListBox}" Background="LightBlue">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
@@ -28,22 +77,38 @@
             </ListView.View>
         </ListView>
 
-        <TextBlock Text="Unordered new random list" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListView Name="listUnorderedRandomElements"  Grid.Column="2" Grid.Row="1" Padding="4" Margin="10" SelectionChanged="UserInsertion" ItemsSource="{Binding unorderedRandomListBox}">
+        <TextBlock Text="Unordered new random list" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,10,0"/>
+        <Button x:Name="btnAddElement" Style="{StaticResource BorderlessButton}" Margin="16,3,16,3" Grid.Row="0" Grid.Column="3"  Click="BtnAddElement_Click" FontSize="14">
+            <Button.Background>
+                <ImageBrush ImageSource="image/icon_plus.png" />
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnRemoveElement" Style="{StaticResource BorderlessButton}" Margin="19,4,19,4" Grid.Row="0" Grid.Column="4"  Click="BtnRemoveElement_Click" FontSize="14" IsEnabled="True">
+            <Button.Background>
+                <ImageBrush ImageSource="image/icon_minus.png" />
+            </Button.Background>
+        </Button>
+        <ListView Name="listUnorderedRandomElements"  Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="1" Padding="4" Margin="10,0,10,0" SelectionChanged="UserInsertion" ItemsSource="{Binding unorderedRandomListBox}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Index" Width="90" DisplayMemberBinding="{Binding Index}"/>
+                    <GridViewColumn Header="Name" Width="320" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <TextBlock Text="Ordered random element list" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListView Name="listOrderedRandomElements" Grid.Column="2" Grid.Row="4" Padding="4" Margin="10" ItemsSource="{Binding orderedRandomListBox}">
+        <TextBlock Text="Ordered random element list" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,10,0"/>
+        <Button x:Name="btnStartOrdering" Margin="10,3,10,3" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"  Content="Update list" Click="BtnStartOrdering_Click" IsEnabled="{Binding canUpdate.IsEnabled}" FontSize="14"/>
+        <Button x:Name="btnResetList" Margin="15,3,15,3" Grid.Row="2" Grid.Column="5" Style="{StaticResource BorderlessButton}" Click="BtnResetList_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="image/icon_reset.png" />
+            </Button.Background>
+        </Button>
+        <ListView Name="listOrderedRandomElements" Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="4" Padding="4" Margin="10,0,10,10" ItemsSource="{Binding orderedRandomListBox}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Index" Width="60" DisplayMemberBinding="{Binding Index}"/>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Index" Width="90" DisplayMemberBinding="{Binding Index}"/>
+                    <GridViewColumn Header="Name" Width="320" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -31,7 +31,37 @@ namespace ProjektLabor
 
         private void UserInsertion(object sender, SelectionChangedEventArgs e)
         {
-            manager.insertElement((SingleElement)((ListBox)sender).SelectedItem);
+            //manager.insertElement((SingleElement)((ListBox)sender).SelectedItem);
+        }
+
+        private void BtnStartOrdering_Click(object sender, RoutedEventArgs e)
+        {
+            manager.updateFullList();
+            manager.orderedRandomListBox.Clear();
+            manager.continueDestinationProcess();
+        }
+
+        private void BtnAddElement_Click(object sender, RoutedEventArgs e)
+        {
+            SingleElement selectedItem = (SingleElement)listUnorderedRandomElements.SelectedItem;
+            if(selectedItem != null)
+            {
+                manager.insertElement(selectedItem);
+            }
+        }
+
+        private void BtnRemoveElement_Click(object sender, RoutedEventArgs e)
+        {
+            SingleElement selectedItem = (SingleElement)listUnorderedRandomElements.SelectedItem;
+            if (selectedItem != null)
+            {
+                manager.removeElement(selectedItem);
+            }
+        }
+
+        private void BtnResetList_Click(object sender, RoutedEventArgs e)
+        {
+            manager.resetUnorderedList();
         }
     }
 }
