@@ -120,34 +120,8 @@ namespace ProjektLabor
                     indexManager.insertAfterElement(firstFull, lastFull);
                     madeChange = true;
                 }
-                else
-                {
-                    if (lastFull.Index == -1)
-                    {
-                        indexManager.insertAfterElement(firstFull, lastFull);
-                        madeChange = true;
-                    }
-                    else if (lastFull.isEqual(firstFull))
-                    {
-                        //MessageBox.Show(firstFull + "'s index is equal to " + lastFull + "'s index, inserting the first!");
-                        indexManager.insertAfterFirstDefined(firstFull);
-                        madeChange = true;
-                    }
-                    else if (firstFull.isLater(lastFull) && lastFull.Index != -1)
-                    {
-                        indexManager.swapElement(firstFull, lastFull);
-                        madeChange = true;
-                    }
-                    else if (firstFull.isLater(lastFull))
-                    {
-                        indexManager.insertAfterElement(firstFull, lastFull);
-                        madeChange = true;
-                    }
-                }
-                //MessageBox.Show(firstFull + " is later than " + lastFull + ", so inserting " + lastFull.Name + " before " + firstFull.Name);
                 listToBeSorted();
             }
-            //checkLastElement(madeChange);
             if (madeChange)
                 updateFullList();
         }
