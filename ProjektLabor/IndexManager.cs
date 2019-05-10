@@ -20,17 +20,17 @@ namespace ProjektLabor
         internal ObservableCollection<SingleElement> initializeFullList()
         {
             list = new ObservableCollection<SingleElement>();
-            list.Add(new SingleElement("Cica",0));
-            list.Add(new SingleElement("Kutyus",1));
-            list.Add(new SingleElement("Nyuszi",2));
-            list.Add(new SingleElement("Póni",3));
-            list.Add(new SingleElement("Csacsi",4));
-            list.Add(new SingleElement("Maki",5));
-            list.Add(new SingleElement("Tigi",6));
-            list.Add(new SingleElement("Breki", 7));
-            list.Add(new SingleElement("Füles", 8));
-            list.Add(new SingleElement("Kacsusz", 9));
-            list.Add(new SingleElement("Elefáni", 10));
+            list.Add(new SingleElement("Cica"));
+            list.Add(new SingleElement("Kutyus"));
+            list.Add(new SingleElement("Nyuszi"));
+            list.Add(new SingleElement("Póni"));
+            list.Add(new SingleElement("Csacsi"));
+            list.Add(new SingleElement("Maki"));
+            list.Add(new SingleElement("Tigi"));
+            list.Add(new SingleElement("Breki"));
+            list.Add(new SingleElement("Füles"));
+            list.Add(new SingleElement("Kacsusz"));
+            list.Add(new SingleElement("Elefáni"));
             return list;
         }
 

@@ -23,6 +23,7 @@ namespace ProjektLabor
         public Button canUpdate { get; set; }
 
         IndexManager indexManager;
+        int counter;
 
         public RouteManager()
         {
@@ -92,6 +93,10 @@ namespace ProjektLabor
                         lastFull.Index = orderedRandomListBox.Count + 1;
                     }
                 }
+                if (counter > 10)
+                {
+                    String valami = "valami";
+                }
                 //MessageBox.Show("Elements that are being compared: " + firstFull + " and " + lastFull + ".");
                 if(firstFull.Index == -1)
                 {
@@ -120,10 +125,12 @@ namespace ProjektLabor
                     indexManager.insertAfterElement(firstFull, lastFull);
                     madeChange = true;
                 }
-                listToBeSorted();
             }
+            counter += 1;
             if (madeChange)
                 updateFullList();
+            MessageBox.Show("Current counter is: " + counter);
+            counter = 0;
         }
 
         public ObservableCollection<SingleElement> listToBeSorted()
