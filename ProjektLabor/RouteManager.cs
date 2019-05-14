@@ -87,7 +87,7 @@ namespace ProjektLabor
                     }
                     index++;
 
-                    if (lastFull == null && index > orderedRandomListBox.Count)
+                    if (lastFull == null && index > fullListBox.Count)
                     {
                         lastFull = lastOrdered;
                         lastFull.Index = orderedRandomListBox.Count + 1;
@@ -129,7 +129,6 @@ namespace ProjektLabor
             counter += 1;
             if (madeChange)
                 updateFullList();
-            MessageBox.Show("Current counter is: " + counter);
             counter = 0;
         }
 

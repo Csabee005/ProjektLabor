@@ -76,7 +76,8 @@ namespace ProjektLabor
                     minIndex = element.Index;
                 }
             }
-            firstFull.Index = minIndex + 1;
+            if(minIndex != list.Count)
+                firstFull.Index = minIndex + 1;
             list.Insert(firstFull.Index, firstFull);
             list = sortList.listToBeSorted();
         }
